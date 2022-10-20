@@ -22,7 +22,7 @@ prelim <- read.taf("bootstrap/initial/data/ICES_nominal_catches/ICES_preliminary
 
 catch_dat <-
   format_catches(2022, "Celtic Seas",
-    hist, official, prelim, species_list, sid)
+    hist, official, NULL,species_list, sid)
 
 write.taf(catch_dat, dir = "data", quote = TRUE)
 
@@ -44,7 +44,7 @@ sag_status <- read.taf("bootstrap/initial/data/SAG_data/SAG_status.csv")
 out_stocks <-  c("aru.27.123a4", "bli.27.nea", "bll.27.3a47de",
                  "cap.27.2a514", "her.27.1-24a514a", "lin.27.5b", "reb.2127.dp",
                  "reg.27.561214", "rjb.27.3a4", "rng.27.1245a8914ab",
-                 "san.sa.7r", "smn-dp")
+                 "san.sa.7r", "smn-dp", "her.27.6a7bc")
 
 library(operators)
 clean_sag <- dplyr::filter(clean_sag, StockKeyLabel %!in% out_stocks)

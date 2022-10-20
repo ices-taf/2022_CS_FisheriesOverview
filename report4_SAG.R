@@ -58,9 +58,14 @@ write.taf(dat, file =file_name(cap_year,ecoreg_code,"SAG_Trends_demersal", ext =
 # 3. Pelagic
 #~~~~~~~~~~~
 plot_stock_trends(trends, guild="pelagic", cap_year, cap_month , return_data = FALSE)
+trends2 <- trends %>% filter(StockKeyLabel != "bsf.27.nea")
+trends2 <- trends2 %>% filter(StockKeyLabel != "spr.27.7de")
+
+plot_stock_trends(trends2, guild="pelagic", cap_year, cap_month , return_data = FALSE)
+
 ggplot2::ggsave(file_name(cap_year,ecoreg_code,"SAG_Trends_pelagic", ext = "png"), path = "report/", width = 178, height = 130, units = "mm", dpi = 300)
 
-dat <- plot_stock_trends(trends, guild="pelagic", cap_year, cap_month, return_data = TRUE)
+dat <- plot_stock_trends(trends2, guild="pelagic", cap_year, cap_month, return_data = TRUE)
 write.taf(dat,file =file_name(cap_year,ecoreg_code,"SAG_Trends_pelagic", ext = "csv"), dir = "report")
 
 # 4. Elasmobranchs
@@ -161,7 +166,7 @@ write.taf(dat, file ="2021_CS_EO_SpeciesGuild_list.csv", dir = "report", quote =
 
 bar <- plot_CLD_bar(catch_current, guild = "demersal", caption = TRUE, cap_year, cap_month, return_data = FALSE)
 catch_current <- catch_current %>% filter(StockKeyLabel != "ele.2737.nea")
-# catch_current <- catch_current %>% filter(StockKeyLabel != "pol.27.67")
+catch_current <- catch_current %>% filter(StockKeyLabel != "pol.27.67")
 bar <- plot_CLD_bar(catch_current, guild = "demersal", caption = TRUE, cap_year, cap_month, return_data = FALSE)
 bar_dat <- plot_CLD_bar(catch_current, guild = "demersal", caption = TRUE, cap_year , cap_month , return_data = TRUE)
 write.taf(bar_dat, file =file_name(cap_year,ecoreg_code,"SAG_Current_demersal", ext = "csv"), dir = "report" )
@@ -277,15 +282,33 @@ dev.off()
 #~~~~~~~~~~~~~~~#
 discardsA <- plot_discard_trends(catch_trends, year, cap_year, cap_month )
 catch_trends2 <- catch_trends %>% filter(FisheriesGuild != "elasmobranch")
+catch_trends2 <- unique(catch_trends2)
+catch_trends2$ID <- paste0(catch_trends2$Year,catch_trends2$StockKeyLabel,catch_trends2$FisheriesGuild)
+catch_trends2 <- catch_trends2 %>% arrange(rowSums(is.na(.))) %>% distinct(ID, .keep_all = TRUE)
+
 discardsA <- plot_discard_trends(catch_trends2, year, cap_year, cap_month )
 
-catch_trends3 <- catch_trends2 %>% filter(discards > 0)
-df5 <- df %>% filter(discards >0)
-df5 <- df
-discardsB <- plot_discard_current(catch_trends3, year,position_letter = "b)", cap_year , cap_month , caption = FALSE)
+catch_trends3 <- catch_trends2 %>% filter(Discards > 0)
+catch_trends3 <- unique(catch_trends3)
+# catch_trends3$ID <- paste0(catch_trends3$Year,catch_trends3$StockKeyLabel,catch_trends3$FisheriesGuild)
+# check <- catch_trends3 %>% arrange(rowSums(is.na(.))) %>% distinct(ID, .keep_all = TRUE)
+# check <- check[, -11]
+df5 <- catch_trends3
+# df5 <- df %>% filter(discards >0)
+# df5 <- df
+discardsB <- plot
+# discardsB <- plot_discard_current(catch_trends3, year,position_letter = "b)", cap_year , cap_month , caption = FALSE)
 # nothing comes out here, because no spurdog assessment
 
-discardsC <- plot_discard_current(catch_trends2, year,position_letter = "c)", cap_year , cap_month, caption = TRUE )
+
+catch_trends2 <- unique(catch_trends2)
+# catch_trends2$ID <- paste0(catch_trends2$Year,catch_trends2$StockKeyLabel,catch_trends2$FisheriesGuild)
+# check <- catch_trends2 %>% arrange(rowSums(is.na(.))) %>% distinct(ID, .keep_all = TRUE)
+# check <- check[, -11]
+df5 <- catch_trends2
+
+discardsC <- plot
+        # plot_discard_current(catch_trends2, year,position_letter = "c)", cap_year , cap_month, caption = TRUE )
 
 #Need to change order?
 dat <- plot_discard_current(catch_trends, year, cap_year, cap_month , return_data = TRUE)
@@ -333,7 +356,8 @@ write.taf(dat, file = file_name(cap_year,ecoreg_code,"SAG_GESpies", ext = "csv")
 dat <- format_annex_table(clean_status, year)
 format_annex_table_html(dat, cap_year, ecoreg_code)
 write.taf(dat, file = file_name(cap_year,ecoreg_code,"annex_table", ext = "csv"), dir = "report", quote=TRUE)
-
+dat2 <- dat[-(1:100),]
+format_annex_table_html(dat2, cap_year, ecoreg_code)
 # This annex table has to be edited by hand,
 # For SBL and GES only one values is reported,
 # the one in PA for SBL and the one in MSY for GES
