@@ -22,7 +22,7 @@ prelim <- read.taf("bootstrap/initial/data/ICES_nominal_catches/ICES_preliminary
 
 catch_dat <-
   format_catches(2022, "Celtic Seas",
-    hist, official, prelim, species_list, sid)
+    hist, official, NULL,species_list, sid)
 
 write.taf(catch_dat, dir = "data", quote = TRUE)
 
@@ -44,25 +44,27 @@ sag_status <- read.taf("bootstrap/initial/data/SAG_data/SAG_status.csv")
 out_stocks <-  c("aru.27.123a4", "bli.27.nea", "bll.27.3a47de",
                  "cap.27.2a514", "her.27.1-24a514a", "lin.27.5b", "reb.2127.dp",
                  "reg.27.561214", "rjb.27.3a4", "rng.27.1245a8914ab",
-                 "san.sa.7r", "smn-dp")
+                 "san.sa.7r", "smn-dp", "her.27.6a7bc")
 
 library(operators)
 clean_sag <- dplyr::filter(clean_sag, StockKeyLabel %!in% out_stocks)
 clean_status <- dplyr::filter(clean_status, StockKeyLabel %!in% out_stocks)
 detach("package:operators", unload=TRUE)
 
+
+
 write.taf(clean_sag, dir = "data")
 write.taf(clean_status, dir = "data", quote = TRUE)
 
-# 3: STECF effort and landings
+# 3: STECF landings
 
-effort <- read.taf("bootstrap/initial/data/FDI effort by country.csv", check.names = TRUE)
-names(effort)
-effort$Sub.region <- tolower(effort$Sub.region)
-unique(effort$Sub.region)
-
-effort_CS <- dplyr::filter(effort, grepl("27.6.a|27.7.b|27.7.j|27.7.g|27.7.a|
-                                          27.7.h|27.7.f", Sub.region))
+# effort <- read.taf("bootstrap/initial/data/FDI effort by country.csv", check.names = TRUE)
+# names(effort)
+# effort$Sub.region <- tolower(effort$Sub.region)
+# unique(effort$Sub.region)
+# 
+# effort_CS <- dplyr::filter(effort, grepl("27.6.a|27.7.b|27.7.j|27.7.g|27.7.a|
+#                                           27.7.h|27.7.f", Sub.region))
 
 landings1 <- read.taf("bootstrap/initial/data/Landings_2014.csv", check.names = TRUE)
 landings2 <- read.taf("bootstrap/initial/data/Landings_2015.csv", check.names = TRUE)
@@ -80,7 +82,7 @@ landings_CS <- dplyr::filter(landings, grepl("27.6.a|27.7.b|27.7.j|27.7.g|27.7.a
 
 # need to group gears, Sarah help.
 unique(landings_CS$Gear.Type)
-unique(effort_CS$Gear.Type)
+# unique(effort_CS$Gear.Type)
 
 
 landings_CS <- dplyr::mutate(landings_CS, gear_class = case_when(

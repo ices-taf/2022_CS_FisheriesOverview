@@ -271,7 +271,7 @@ dat<-plot_stecf(effort_CS,type = "effort", variable= "GEAR", "2019","August", 9,
 write.taf(dat, file= paste0(cap_year, "_", ecoreg,"_FO_STECF_effortGear.csv"), dir = "report")
 
 #~~~~~~~~~~~~~~~#
-#Landings by country
+#Landings by Gear
 #~~~~~~~~~~~~~~~#
 
 plot_stecf <- function(df, type, variable = NULL, cap_year, cap_month, line_count, stecf_report, return_data = FALSE) {
@@ -367,6 +367,8 @@ plot_stecf <- function(df, type, variable = NULL, cap_year, cap_month, line_coun
         
         pl <- pl + ggplot2::geom_line(ggplot2::aes(color = type_var),
                                       alpha = .9, position = "identity")
+        
+        
         dat2 <- dplyr::filter(dat,Year == max(Year, na.rm = TRUE))
         pl <- pl + ggrepel::geom_label_repel(data = dat2 ,
                                              ggplot2::aes(label = type_var,
