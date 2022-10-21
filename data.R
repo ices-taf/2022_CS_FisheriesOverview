@@ -51,18 +51,20 @@ clean_sag <- dplyr::filter(clean_sag, StockKeyLabel %!in% out_stocks)
 clean_status <- dplyr::filter(clean_status, StockKeyLabel %!in% out_stocks)
 detach("package:operators", unload=TRUE)
 
+
+
 write.taf(clean_sag, dir = "data")
 write.taf(clean_status, dir = "data", quote = TRUE)
 
-# 3: STECF effort and landings
+# 3: STECF landings
 
-effort <- read.taf("bootstrap/initial/data/FDI effort by country.csv", check.names = TRUE)
-names(effort)
-effort$Sub.region <- tolower(effort$Sub.region)
-unique(effort$Sub.region)
-
-effort_CS <- dplyr::filter(effort, grepl("27.6.a|27.7.b|27.7.j|27.7.g|27.7.a|
-                                          27.7.h|27.7.f", Sub.region))
+# effort <- read.taf("bootstrap/initial/data/FDI effort by country.csv", check.names = TRUE)
+# names(effort)
+# effort$Sub.region <- tolower(effort$Sub.region)
+# unique(effort$Sub.region)
+# 
+# effort_CS <- dplyr::filter(effort, grepl("27.6.a|27.7.b|27.7.j|27.7.g|27.7.a|
+#                                           27.7.h|27.7.f", Sub.region))
 
 landings1 <- read.taf("bootstrap/initial/data/Landings_2014.csv", check.names = TRUE)
 landings2 <- read.taf("bootstrap/initial/data/Landings_2015.csv", check.names = TRUE)
@@ -80,7 +82,7 @@ landings_CS <- dplyr::filter(landings, grepl("27.6.a|27.7.b|27.7.j|27.7.g|27.7.a
 
 # need to group gears, Sarah help.
 unique(landings_CS$Gear.Type)
-unique(effort_CS$Gear.Type)
+# unique(effort_CS$Gear.Type)
 
 
 landings_CS <- dplyr::mutate(landings_CS, gear_class = case_when(

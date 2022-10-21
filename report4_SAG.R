@@ -42,6 +42,8 @@ unique(trends$FisheriesGuild)
 # 1. Benthic
 #~~~~~~~~~~~
 plot_stock_trends(trends, guild="benthic", cap_year, cap_month , return_data = FALSE)
+trends2 <- trends %>% filter(StockKeyLabel != "anf.27.3a46")
+plot_stock_trends(trends2, guild="benthic", cap_year, cap_month , return_data = FALSE)
 ggplot2::ggsave(file_name(cap_year,ecoreg_code,"SAG_Trends_benthic", ext = "png"), path = "report/", width = 178, height = 130, units = "mm", dpi = 300)
 
 dat <- plot_stock_trends(trends, guild="benthic", cap_year , cap_month, return_data = TRUE)
