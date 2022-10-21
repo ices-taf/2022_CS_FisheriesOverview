@@ -331,6 +331,9 @@ write.taf(dat, file = file_name(cap_year,ecoreg_code,"SAG_GESpies", ext = "csv")
 
 
 dat <- format_annex_table(clean_status, year)
+
+dat <- read.taf("report/2022_CS_FO_annex_table.csv")
+
 format_annex_table_html(dat, cap_year, ecoreg_code)
 write.taf(dat, file = file_name(cap_year,ecoreg_code,"annex_table", ext = "csv"), dir = "report", quote=TRUE)
 
