@@ -171,9 +171,12 @@ catch_current <- catch_current %>% filter(StockKeyLabel != "ele.2737.nea")
 catch_current <- catch_current %>% filter(StockKeyLabel != "pol.27.67")
 bar <- plot_CLD_bar(catch_current, guild = "demersal", caption = TRUE, cap_year, cap_month, return_data = FALSE)
 bar_dat <- plot_CLD_bar(catch_current, guild = "demersal", caption = TRUE, cap_year , cap_month , return_data = TRUE)
+top_20 <- bar_dat %>% top_n(20, total) # total calculation is not working
+bar <- plot_CLD_bar(top_20, guild = "All", caption = TRUE, cap_year , cap_month , return_data = FALSE)
+
 write.taf(bar_dat, file =file_name(cap_year,ecoreg_code,"SAG_Current_demersal", ext = "csv"), dir = "report" )
 
-kobe <- plot_kobe(catch_current, guild = "demersal", caption = TRUE, cap_year , cap_month , return_data = FALSE)
+kobe <- plot_kobe(top_20, guild = "demersal", caption = TRUE, cap_year , cap_month , return_data = FALSE)
 #kobe_dat is just like bar_dat with one less variable
 #kobe_dat <- plot_kobe(catch_current, guild = "Demersal", caption = T, cap_year , cap_month , return_data = TRUE)
 
@@ -186,7 +189,7 @@ png(file_name(cap_year,ecoreg_code,"SAG_Current_demersal", ext = "png"),
     res = 300)
 p1_plot<-gridExtra::grid.arrange(kobe,
                                  bar, ncol = 2,
-                                 respect = TRUE, top = "demersal")
+                                 respect = TRUE, top = "demersal top 20")
 dev.off()
 
 # 2. Pelagic
