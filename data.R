@@ -33,6 +33,11 @@ sag_sum <- read.taf("SAG_summary.csv")
 sag_refpts <- read.taf("SAG_refpts.csv")
 sag_status <- read.taf("SAG_status.csv")
 
+
+#DGS has a custom ref point for F but we should not plot the SSB one instead
+sag_complete$FMSY[which(sag_complete$FishStock == "dgs.27.nea")] <- 0.0429543
+sag_complete$MSYBtrigger[which(sag_complete$FishStock == "dgs.27.nea")] <- NA
+
 clean_sag <- format_sag(sag_complete, sid)
 clean_status <- format_sag_status(status, 2022, "Celtic Seas")
 
