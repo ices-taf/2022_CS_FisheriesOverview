@@ -342,9 +342,9 @@ plot_stecf <- function(df, type, variable = NULL, cap_year, cap_month, line_coun
         myColors <- colList[1:length(unique(dat$type_var))]
         names(myColors) <- levels(dat$type_var)
         myColors["other"] <- "#7F7F7F"
-        if(type == "effort"){
+        # if(type == "effort"){
                 dat$typeTotal <- dat$typeTotal/1000
-        }
+        # }
         
         pl <- ggplot2::ggplot(dplyr::ungroup(dat), ggplot2::aes(x = Year, y = typeTotal)) +
                 ggplot2::scale_fill_manual(values = myColors) +
