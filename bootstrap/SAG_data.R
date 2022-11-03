@@ -19,4 +19,4 @@ write.taf(out, file = "SAG_complete_CS.csv", quote = TRUE)
 
 status <- load_sag_status(2022)
 
-write.taf(status, file = "SAG_status_BtS.csv", quote = TRUE)
+write.taf(status, file = "SAG_status_CS.csv", quote = TRUE)

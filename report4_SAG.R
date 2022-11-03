@@ -44,18 +44,18 @@ unique(trends$FisheriesGuild)
 plot_stock_trends(trends, guild="benthic", cap_year, cap_month , return_data = FALSE)
 trends2 <- trends %>% filter(StockKeyLabel != "anf.27.3a46")
 plot_stock_trends(trends2, guild="benthic", cap_year, cap_month , return_data = FALSE)
-ggplot2::ggsave(file_name(cap_year,ecoreg_code,"SAG_Trends_benthic", ext = "png"), path = "report/", width = 178, height = 130, units = "mm", dpi = 300)
+ggplot2::ggsave(file_name(cap_year,ecoreg_code,"SAG_Trends_benthic", ext = "png", dir = "report"), width = 178, height = 130, units = "mm", dpi = 300)
 
 dat <- plot_stock_trends(trends, guild="benthic", cap_year , cap_month, return_data = TRUE)
-write.taf(dat, file =file_name(cap_year,ecoreg_code,"SAG_Trends_benthic", ext = "csv"), dir = "report")
+write.taf(dat, file =file_name(cap_year,ecoreg_code,"SAG_Trends_benthic", ext = "csv", dir = "report"))
 
 # 2. Demersal
 #~~~~~~~~~~~
 plot_stock_trends(trends, guild="demersal", cap_year, cap_month , return_data = FALSE)
-ggplot2::ggsave(file_name(cap_year,ecoreg_code,"SAG_Trends_demersal", ext = "png"), path = "report/", width = 178, height = 130, units = "mm", dpi = 300)
+ggplot2::ggsave(file_name(cap_year,ecoreg_code,"SAG_Trends_demersal", ext = "png", dir = "report"), width = 178, height = 130, units = "mm", dpi = 300)
 
 dat <- plot_stock_trends(trends, guild="demersal", cap_year , cap_month, return_data = TRUE)
-write.taf(dat, file =file_name(cap_year,ecoreg_code,"SAG_Trends_demersal", ext = "csv"), dir = "report")
+write.taf(dat, file =file_name(cap_year,ecoreg_code,"SAG_Trends_demersal", ext = "csv", dir = "report"))
 
 # 3. Pelagic
 #~~~~~~~~~~~
@@ -63,28 +63,37 @@ plot_stock_trends(trends, guild="pelagic", cap_year, cap_month , return_data = F
 trends2 <- trends %>% filter(StockKeyLabel != "bsf.27.nea")
 trends2 <- trends2 %>% filter(StockKeyLabel != "spr.27.7de")
 
+##### eliminate year 2022 for F and 2023 for SSB for whb.27.1-91214
+trends2 <- trends2[!(trends2$StockKeyLabel == "whb.27.1-91214" & trends2$Metric == "F_FMEAN" & trends2$Year == 2022) &
+                !(trends2$StockKeyLabel == "whb.27.1-91214" & trends2$Metric == "F_FMSY" & trends2$Year == 2022) &
+                !(trends2$StockKeyLabel == "MEAN" & trends2$Metric == "F_FMSY" & trends2$Year == 2022) &
+                !(trends2$StockKeyLabel == "whb.27.1-91214" & trends2$Metric == "SSB_MSYBtrigger" & trends2$Year == 2023) &
+                !(trends2$StockKeyLabel == "MEAN" & trends2$Metric == "SSB_MSYBtrigger" & trends2$Year == 2023),]
+
+
+
 plot_stock_trends(trends2, guild="pelagic", cap_year, cap_month , return_data = FALSE)
 
-ggplot2::ggsave(file_name(cap_year,ecoreg_code,"SAG_Trends_pelagic", ext = "png"), path = "report/", width = 178, height = 130, units = "mm", dpi = 300)
+ggplot2::ggsave(file_name(cap_year,ecoreg_code,"SAG_Trends_pelagic", ext = "png", dir = "report"), width = 178, height = 130, units = "mm", dpi = 300)
 
 dat <- plot_stock_trends(trends2, guild="pelagic", cap_year, cap_month, return_data = TRUE)
-write.taf(dat,file =file_name(cap_year,ecoreg_code,"SAG_Trends_pelagic", ext = "csv"), dir = "report")
+write.taf(dat,file =file_name(cap_year,ecoreg_code,"SAG_Trends_pelagic", ext = "csv", dir = "report"))
 
 # 4. Elasmobranchs
 #~~~~~~~~~~~
 plot_stock_trends(trends, guild="elasmobranch", cap_year, cap_month ,return_data = FALSE )
-ggplot2::ggsave(file_name(cap_year,ecoreg_code,"SAG_Trends_elasmobranch", ext = "png"), path = "report/", width = 178, height = 130, units = "mm", dpi = 300)
+ggplot2::ggsave(file_name(cap_year,ecoreg_code,"SAG_Trends_elasmobranch", ext = "png", dir = "report"), width = 178, height = 130, units = "mm", dpi = 300)
 
 dat <- plot_stock_trends(trends, guild="elasmobranch", cap_year , cap_month , return_data = TRUE)
-write.taf(dat, file =file_name(cap_year,ecoreg_code,"SAG_Trends_elasmobranch", ext = "csv"), dir = "report" )
+write.taf(dat, file =file_name(cap_year,ecoreg_code,"SAG_Trends_elasmobranch", ext = "csv", dir = "report"))
 
 # 5. Crustacean
 #~~~~~~~~~~~
 plot_stock_trends(trends, guild="crustacean", cap_year, cap_month ,return_data = FALSE )
-ggplot2::ggsave(file_name(cap_year,ecoreg_code,"SAG_Trends_crustacean", ext = "png"), path = "report/", width = 178, height = 130, units = "mm", dpi = 300)
+ggplot2::ggsave(file_name(cap_year,ecoreg_code,"SAG_Trends_crustacean", ext = "png", dir = "report"), width = 178, height = 130, units = "mm", dpi = 300)
 
 dat <- plot_stock_trends(trends, guild="crustacean", cap_year , cap_month , return_data = TRUE)
-write.taf(dat, file =file_name(cap_year,ecoreg_code,"SAG_Trends_crustacean", ext = "csv"), dir = "report" )
+write.taf(dat, file =file_name(cap_year,ecoreg_code,"SAG_Trends_crustacean", ext = "csv", dir = "report" ))
 
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~#
